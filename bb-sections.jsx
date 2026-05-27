@@ -101,11 +101,11 @@ function Hero({onCTA, eventDate}){
         </p>
 
         <div className="hero-ctas">
-          <button className="btn primary big" onClick={onCTA}>
-            <IconHeart size={20}/> Garantir minha vaga
+          <button className="btn primary huge" onClick={onCTA}>
+            <IconHeart size={24}/> Garantir minha vaga
           </button>
-          <a href="#flyer" className="btn ghost big">
-            <IconCamera size={20}/> Quero meu story
+          <a href="#flyer" className="btn ghost huge">
+            <IconCamera size={24}/> Quero meu story
           </a>
         </div>
 
