@@ -797,8 +797,8 @@ const { useRef } = React;
 
 function App(){
   const flyerRef = useRef(null);
-  // Target: 14 June 2026, 09:00 (São Paulo) — set in user's local for demo
-  const target = new Date('2026-06-14T09:00:00').getTime();
+  // Target: 31 May 2026, 10:00 (São Paulo)
+  const target = new Date('2026-05-31T10:00:00').getTime();
 
   const goFlyer = () => document.getElementById('flyer')?.scrollIntoView({behavior:'smooth'});
 

@@ -86,7 +86,7 @@ function Hero({onCTA, eventDate}){
       <div className="hero-inner">
         <div className="hero-badge">
           <SparkleSVG style={{width:14, height:14, color:'#fff4cc'}}/>
-          <span>SÁBADO · 14 DE JUNHO · 09H</span>
+          <span>DOMINGO · 31 DE MAIO · 10H</span>
           <SparkleSVG style={{width:14, height:14, color:'#fff4cc'}}/>
         </div>
 
@@ -110,11 +110,11 @@ function Hero({onCTA, eventDate}){
         </div>
 
         <div className="hero-stats">
-          <div className="stat"><div className="stat-n">+200</div><div className="stat-l">lindezas</div></div>
+          <div className="stat"><div className="stat-n">2</div><div className="stat-l">professoras</div></div>
           <div className="stat-sep"/>
-          <div className="stat"><div className="stat-n">3h</div><div className="stat-l">de aulão</div></div>
+          <div className="stat"><div className="stat-n">4h</div><div className="stat-l">de aulão</div></div>
           <div className="stat-sep"/>
-          <div className="stat"><div className="stat-n">12</div><div className="stat-l">brindes</div></div>
+          <div className="stat"><div className="stat-n">+</div><div className="stat-l">brindes</div></div>
         </div>
       </div>
 
@@ -126,7 +126,7 @@ function Hero({onCTA, eventDate}){
               <span>B&amp;B LINDEZAS</span><span className="dot">♥</span>
               <span>1ª EDIÇÃO</span><span className="dot">♥</span>
               <span>AULÃO</span><span className="dot">♥</span>
-              <span>14 DE JUNHO</span><span className="dot">♥</span>
+              <span>31 DE MAIO</span><span className="dot">♥</span>
               <span>SUA VAGA TÁ AQUI</span><span className="dot">♥</span>
             </div>
           ))}
@@ -189,9 +189,9 @@ function Countdown({target}){
       </Reveal>
       <Reveal delay={.2}>
         <div className="cd-info">
-          <div className="cd-info-item"><IconCalendar size={18}/> <span>Sábado, 14 de junho</span></div>
-          <div className="cd-info-item"><IconClock size={18}/> <span>09h00 — 12h00</span></div>
-          <div className="cd-info-item"><IconPin size={18}/> <span>Studio B&amp;B · Vila Madalena</span></div>
+          <div className="cd-info-item"><IconCalendar size={18}/> <span>Domingo, 31 de maio</span></div>
+          <div className="cd-info-item"><IconClock size={18}/> <span>10h00 — 14h00</span></div>
+          <div className="cd-info-item"><IconPin size={18}/> <span>Rua Branquilho, 166 · Salão de Festa</span></div>
         </div>
       </Reveal>
     </section>
@@ -244,12 +244,12 @@ function OQueTeEspera(){
 // Programação (timeline)
 // =====================================================
 const SCHEDULE = [
-  {time:'08h30', title:'CREDENCIAMENTO', text:'Retire seu kit, foto na entrada com a galera.', icon: IconTicket},
-  {time:'09h00', title:'AQUECIMENTO ROSA', text:'Pra acordar o corpo no embalo do DJ set.', icon: IconBolt},
-  {time:'09h30', title:'BLOCO 1 · FORÇA', text:'Funcional com halteres rosinhas — porque a gente também é dura.', icon: IconStar},
-  {time:'10h15', title:'BLOCO 2 · DANÇA', text:'Coreografia surpresa. Vai entrar no story de todo mundo.', icon: IconMusic},
-  {time:'11h00', title:'BLOCO 3 · ALONGAMENTO', text:'Respira, relaxa, gratidão.', icon: IconHeart},
-  {time:'11h30', title:'CAFÉ & SORTEIOS', text:'Café das lindezas + brindes ao vivo.', icon: IconGift},
+  {time:'10h00', title:'RECEPÇÃO & COFFEE BREAK', text:'Chegou? Vem tomar um café com a gente e dar oi pras lindezas.', icon: IconTicket},
+  {time:'10h30', title:'ALONGAMENTO + FUNCIONAL', text:'Aulão de funcional com a Desiree pra ativar o corpo todo.', icon: IconBolt},
+  {time:'11h30', title:'PAUSA COM FRUTAS', text:'Repõe a energia com frutinhas frescas 🍎🍌 antes do próximo bloco.', icon: IconHeart},
+  {time:'12h00', title:'FIT DANCE', text:'Pista liberada com a Karen Loys. Vai todo mundo entrar no story.', icon: IconMusic},
+  {time:'13h00', title:'SORTEIOS & BRINDES', text:'Hora de levar mimo pra casa. Sorteios ao vivo 🎁', icon: IconGift},
+  {time:'13h30', title:'FOTOS & ENCERRAMENTO', text:'Fotos oficiais da turma 📸 e até a próxima edição ✨', icon: IconStar},
 ];
 
 function Programacao(){
@@ -283,9 +283,8 @@ function Programacao(){
 // Instrutoras
 // =====================================================
 const INSTRUCTORS = [
-  {name:'BIA MARTINS', role:'Funcional & Força', insta:'@bia.lindeza', hue:0, init:'B'},
-  {name:'BRUNA CALADO', role:'Dança & Cardio', insta:'@bru.lindeza', hue:25, init:'B'},
-  {name:'CAROL SILVA', role:'Alongamento & Yoga', insta:'@carol.lindeza', hue:-25, init:'C'},
+  {name:'DESIREE SOUZA', role:'Instrutora Funcional', insta:'@desiree.souza', hue:0, init:'D'},
+  {name:'KAREN LOYS', role:'Fit Dance', insta:'@karen.loys', hue:25, init:'K'},
 ];
 
 function Instrutoras(){
@@ -377,7 +376,7 @@ function Footer(){
               <div className="brand-sub light">1ª edição · aulão</div>
             </div>
           </div>
-          <p className="foot-tag">Treino, comunidade e muito amor.<br/>Te esperamos no dia 14 de junho. 💖</p>
+          <p className="foot-tag">Treino, comunidade e muito amor.<br/>Te esperamos no dia 31 de maio. 💖</p>
         </div>
         <div className="foot-right">
           <button className="btn primary big" onClick={()=> document.getElementById('flyer')?.scrollIntoView({behavior:'smooth'})}>
