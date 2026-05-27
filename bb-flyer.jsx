@@ -212,7 +212,7 @@ function FlyerSection(){
             <ul className="flyer-tips">
               <li><IconCheck size={14}/> Imagem 1080×1920 — perfeita pro Stories</li>
               <li><IconCheck size={14}/> Marque <b>@bb.lindezas</b> no post</li>
-              <li><IconCheck size={14}/> Use a #BBLindezas2026 pra entrar no mural</li>
+              <li><IconCheck size={14}/> Use a #BBLindezas2026 pra a gente reagir no Insta</li>
             </ul>
           </div>
         </div>
@@ -223,36 +223,4 @@ function FlyerSection(){
   );
 }
 
-// =====================================================
-// Gallery — image-slot grid for community photos
-// =====================================================
-function Gallery(){
-  const items = useMemoF(()=> Array.from({length:8}).map((_,i)=>({
-    id:`gallery-${i}`,
-    rotate: ((i%5)-2)*1.5,
-    hue: (i*30)%360,
-  })),[]);
-  return (
-    <section className="gallery" id="galeria" data-screen-label="07 Galeria">
-      <Reveal>
-        <div className="section-eyebrow light"><span className="line"/> mural das lindezas <span className="line"/></div>
-        <h2 className="section-title light">A GALERA QUE JÁ FOI</h2>
-        <p className="section-sub">Adicione suas fotos preferidas pra montar seu próprio mural — arrasta na moldura.</p>
-      </Reveal>
-      <div className="gallery-grid">
-        {items.map((it,i)=> (
-          <Reveal key={it.id} delay={i*.05}>
-            <div className="gallery-slot" style={{transform:`rotate(${it.rotate}deg)`}}>
-              <image-slot id={it.id} shape="rect" radius="14"
-                          placeholder="arrasta uma foto"
-                          style={{width:'100%',height:'100%'}}></image-slot>
-              <div className="gallery-tape"/>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-Object.assign(window, { FlyerSection, Gallery });
+Object.assign(window, { FlyerSection });

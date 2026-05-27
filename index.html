@@ -683,52 +683,6 @@
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
   /* ===================================================================
-     GALLERY
-  =================================================================== */
-  .gallery{
-    padding:120px 24px;
-    background: linear-gradient(180deg, var(--berry-800) 0%, var(--berry-900) 100%);
-    color:#fff;
-    position:relative;overflow:hidden;
-  }
-  .gallery::before{
-    content:"";position:absolute;inset:0;
-    background-image:
-      radial-gradient(circle at 20% 30%, rgba(255,79,166,.15) 0%, transparent 40%),
-      radial-gradient(circle at 80% 70%, rgba(255,244,204,.1) 0%, transparent 40%);
-    pointer-events:none;
-  }
-  .gallery > *{position:relative;z-index:1}
-  .gallery-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-    gap:24px;
-    max-width:1100px;margin:0 auto;
-  }
-  .gallery-slot{
-    position:relative;
-    aspect-ratio: 3/4;
-    background:#fff;
-    border-radius:14px;
-    padding:10px 10px 36px;
-    box-shadow: 0 10px 24px rgba(0,0,0,.3);
-    transition: transform .3s ease, box-shadow .3s ease;
-  }
-  .gallery-slot:hover{transform:rotate(0) translateY(-6px) scale(1.03);box-shadow:0 16px 32px rgba(0,0,0,.4)}
-  .gallery-slot image-slot{
-    display:block;
-    width:100% !important;
-    height:calc(100% - 26px) !important;
-    border-radius:6px;overflow:hidden;
-  }
-  .gallery-tape{
-    position:absolute;left:50%;top:-10px;transform:translateX(-50%) rotate(-2deg);
-    width:60px;height:22px;
-    background: linear-gradient(180deg, rgba(255,244,204,.85), rgba(255,244,204,.7));
-    box-shadow: 0 2px 6px rgba(0,0,0,.2);
-  }
-
-  /* ===================================================================
      FOOTER
   =================================================================== */
   .site-footer{
@@ -810,7 +764,6 @@ function App(){
       <Programacao/>
       <Instrutoras/>
       <FlyerSection/>
-      <Gallery/>
       <Footer/>
     </>
   );
