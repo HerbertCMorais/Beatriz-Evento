@@ -49,9 +49,17 @@ function FlyerSection(){
   const [name, setName] = useStateF('');
   const [dragOver, setDragOver] = useStateF(false);
   const [toast, setToast] = useStateF('');
+  const [canShareFiles, setCanShareFiles] = useStateF(false);
   const fileRef = useRefF(null);
   const storyRef = useRefF(null);
   const toastTimer = useRefF(null);
+
+  useEffectF(()=>{
+    try {
+      const probe = new File([new Blob(['x'],{type:'image/png'})], 'p.png', {type:'image/png'});
+      setCanShareFiles(!!(navigator.canShare && navigator.canShare({files:[probe]})));
+    } catch(e){ setCanShareFiles(false); }
+  },[]);
 
   const showToast = useCallbackF((msg)=>{
     setToast(msg);
@@ -90,15 +98,27 @@ function FlyerSection(){
   const share = async () => {
     if(!storyRef.current) return;
     try{
+      showToast('Preparando seu story…');
       const dataUrl = await window.htmlToImage.toPng(storyRef.current, {
         pixelRatio: 3, cacheBust:true, backgroundColor:'#f6b8d2',
       });
       const blob = await (await fetch(dataUrl)).blob();
-      const file = new File([blob], 'bb-lindezas.png', {type:'image/png'});
+      const file = new File([blob], `bb-lindezas-${(name||'eu-vou').toLowerCase().replace(/\s+/g,'-')}.png`, {type:'image/png'});
       if(navigator.canShare && navigator.canShare({files:[file]})){
-        await navigator.share({files:[file], title:'B&B Lindezas — Eu Vou!', text:'Eu vou no Aulão B&B Lindezas! 💖'});
-      }else{ download(); }
-    }catch(err){ console.error(err); showToast('Compartilhamento indisponível, fazendo download…'); download(); }
+        await navigator.share({
+          files:[file],
+          title:'B&B Lindezas — Eu Vou!',
+          text:'Eu vou no 1º Aulão B&B Lindezas — 31/05! 💖 @bb.lindezas #BBLindezas2026'
+        });
+        showToast('Pronto! Escolhe o Instagram pra postar 💗');
+      }else{
+        showToast('Esse navegador não compartilha direto — baixando a foto pra você postar 💖');
+        await download();
+      }
+    }catch(err){
+      if(err && err.name === 'AbortError') return; // usuário cancelou — silencioso
+      console.error(err); showToast('Ops, tente novamente');
+    }
   };
 
   const reset = () => { setImage(null); showToast('Foto removida'); };
@@ -111,9 +131,16 @@ function FlyerSection(){
       </div>
 
       <Reveal>
-        <div className="section-eyebrow"><span className="line"/> mostre pro mundo <span className="line"/></div>
-        <h2 className="section-title">SEU STORY <span style={{color:'#fff4cc'}}>OFICIAL</span></h2>
-        <p className="section-sub">Sobe sua foto, baixa a arte personalizada e posta no Insta marcando @bb.lindezas. Bora avisar todo mundo que você vai? 💖</p>
+        <div className="section-eyebrow big"><span className="line"/> ✨ mostre pro mundo ✨ <span className="line"/></div>
+        <h2 className="section-title huge">SEU STORY <span style={{color:'#fff4cc'}}>OFICIAL</span></h2>
+        <p className="section-sub big">Cria a SUA arte do aulão em <strong>10 segundos</strong> e posta direto no Instagram com um toque.<br/>Bora deixar todo mundo com vontade de ir também? 💖</p>
+        <div className="flyer-quick-steps">
+          <div className="qs"><span className="qs-num">1</span> Sua foto</div>
+          <div className="qs-arrow">→</div>
+          <div className="qs"><span className="qs-num">2</span> Seu nome</div>
+          <div className="qs-arrow">→</div>
+          <div className="qs"><span className="qs-num">3</span> Postar no Insta</div>
+        </div>
       </Reveal>
 
       <Reveal delay={.1}>
@@ -198,21 +225,26 @@ function FlyerSection(){
             <input className="name-input" type="text" placeholder="Ex: Bia"
                    value={name} onChange={(e)=> setName(e.target.value.slice(0,16))}/>
 
-            <h3 className="flyer-controls-title" style={{marginTop:18}}>
+            <h3 className="flyer-controls-title" style={{marginTop:22}}>
               <span className="num">03</span>
-              Baixar &amp; compartilhar
+              Postar no seu Instagram
             </h3>
-            <button className="btn primary big full" onClick={download}>
-              <IconDownload size={18}/> Baixar para o Instagram
+            <button className="btn btn-instagram big full" onClick={share}>
+              <IconInstagram size={22}/> Postar agora no Instagram
             </button>
-            <button className="btn secondary big full" onClick={share}>
-              <IconShare size={18}/> Compartilhar agora
+            <div className="share-hint">
+              {canShareFiles
+                ? '✨ Toque pra abrir o app do Instagram direto'
+                : '📱 Funciona melhor no celular — abre o Instagram automaticamente'}
+            </div>
+            <button className="btn ghost-dark big full" onClick={download} style={{marginTop:10}}>
+              <IconDownload size={16}/> Ou baixar pra postar depois
             </button>
 
             <ul className="flyer-tips">
               <li><IconCheck size={14}/> Imagem 1080×1920 — perfeita pro Stories</li>
               <li><IconCheck size={14}/> Marque <b>@bb.lindezas</b> no post</li>
-              <li><IconCheck size={14}/> Use a #BBLindezas2026 pra a gente reagir no Insta</li>
+              <li><IconCheck size={14}/> Use a <b>#BBLindezas2026</b> pra a gente reagir</li>
             </ul>
           </div>
         </div>

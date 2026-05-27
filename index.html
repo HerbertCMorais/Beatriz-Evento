@@ -539,18 +539,87 @@
      FLYER section
   =================================================================== */
   .flyer-section{
-    padding:120px 24px 100px;
-    background:linear-gradient(180deg, #f6b8d2 0%, #e91e84 100%);
+    padding:160px 24px 140px;
+    background:linear-gradient(180deg, #f6b8d2 0%, #e91e84 60%, #c2185b 100%);
     color:#fff;
     position:relative;overflow:hidden;
+    scroll-margin-top:0;
   }
   .flyer-bg{position:absolute;inset:0;pointer-events:none}
-  .flyer-glow{position:absolute;border-radius:50%;filter:blur(100px);opacity:.5}
-  .flyer-glow-a{width:500px;height:500px;background:#fff4cc;top:-100px;left:-100px;animation:expGlow 14s ease-in-out infinite}
-  .flyer-glow-b{width:600px;height:600px;background:#ff75bb;bottom:-200px;right:-100px;animation:expGlow 18s ease-in-out infinite reverse}
+  .flyer-glow{position:absolute;border-radius:50%;filter:blur(100px);opacity:.55}
+  .flyer-glow-a{width:600px;height:600px;background:#fff4cc;top:-120px;left:-120px;animation:expGlow 14s ease-in-out infinite}
+  .flyer-glow-b{width:720px;height:720px;background:#ff75bb;bottom:-240px;right:-140px;animation:expGlow 18s ease-in-out infinite reverse}
   .flyer-section .section-title{color:#fff;text-shadow: 0 3px 0 var(--pink-600), 0 6px 0 var(--berry-700), 0 12px 24px rgba(0,0,0,.3)}
+  .flyer-section .section-title.huge{font-size:clamp(40px, 8vw, 84px); letter-spacing:.5px; margin-bottom:6px}
   .flyer-section .section-eyebrow{color:rgba(255,255,255,.9)}
+  .flyer-section .section-eyebrow.big{font-size:14px; letter-spacing:3px; gap:14px; margin-bottom:14px}
+  .flyer-section .section-eyebrow.big .line{width:64px; height:3px}
   .flyer-section .section-sub{color:rgba(255,255,255,.92)}
+  .flyer-section .section-sub.big{font-size:clamp(15px, 1.4vw, 19px); max-width:640px; margin:14px auto 0; line-height:1.55}
+  .flyer-section .section-sub.big strong{color:#fff4cc}
+
+  .flyer-quick-steps{
+    display:flex; justify-content:center; align-items:center; gap:14px; flex-wrap:wrap;
+    margin:28px auto 8px; max-width:760px;
+    font-family:'Fredoka',sans-serif; font-weight:600;
+  }
+  .flyer-quick-steps .qs{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:10px 18px; background:rgba(255,255,255,.16); backdrop-filter:blur(6px);
+    border:1.5px solid rgba(255,255,255,.4); border-radius:999px;
+    color:#fff; font-size:14px; box-shadow:0 6px 18px rgba(122,8,52,.18);
+  }
+  .flyer-quick-steps .qs-num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:24px;height:24px;border-radius:50%;
+    background:#fff;color:var(--pink-500);font-weight:800;font-size:13px;
+  }
+  .flyer-quick-steps .qs-arrow{color:rgba(255,255,255,.7); font-size:18px; font-weight:700}
+  @media(max-width:560px){
+    .flyer-quick-steps{gap:8px}
+    .flyer-quick-steps .qs{padding:8px 14px;font-size:13px}
+    .flyer-quick-steps .qs-arrow{display:none}
+  }
+
+  /* Botão Instagram — gradient oficial + animação pulse pra chamar atenção */
+  .btn-instagram{
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%) !important;
+    background-size: 200% 200% !important;
+    color:#fff !important;
+    border:none !important;
+    font-weight:800 !important;
+    font-size:17px !important;
+    letter-spacing:.3px;
+    box-shadow:
+      0 0 0 4px rgba(255,255,255,.18),
+      0 10px 30px -8px rgba(220, 39, 67, .65),
+      0 20px 40px -16px rgba(188, 24, 136, .5) !important;
+    position:relative;
+    animation: insta-shift 6s ease-in-out infinite, insta-pulse 2.4s ease-in-out infinite;
+    transition: transform .15s ease, box-shadow .2s ease;
+  }
+  .btn-instagram:hover{
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+      0 0 0 5px rgba(255,255,255,.25),
+      0 14px 36px -8px rgba(220, 39, 67, .8),
+      0 24px 50px -16px rgba(188, 24, 136, .6) !important;
+  }
+  .btn-instagram:active{ transform: translateY(0) scale(.99) }
+  @keyframes insta-shift{
+    0%,100%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+  }
+  @keyframes insta-pulse{
+    0%,100%{box-shadow: 0 0 0 4px rgba(255,255,255,.18), 0 10px 30px -8px rgba(220, 39, 67, .65), 0 20px 40px -16px rgba(188, 24, 136, .5)}
+    50%{box-shadow: 0 0 0 6px rgba(255,255,255,.32), 0 12px 36px -8px rgba(220, 39, 67, .9), 0 24px 50px -16px rgba(188, 24, 136, .7)}
+  }
+
+  .share-hint{
+    text-align:center;font-size:12.5px;color:var(--pink-600);
+    background:rgba(255,255,255,.6);border:1px solid rgba(220,39,67,.18);
+    border-radius:8px;padding:8px 12px;margin-top:8px;font-weight:500;
+  }
   .flyer-stage{
     display:grid;
     grid-template-columns: minmax(280px,420px) minmax(280px,420px);
