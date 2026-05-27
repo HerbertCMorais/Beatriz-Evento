@@ -546,6 +546,40 @@
   }
   .instr-card:hover{transform:translateY(-8px) rotate(-1deg)}
   .instr-card:nth-child(even):hover{transform:translateY(-8px) rotate(1deg)}
+
+  /* Variante "só nomes" — sem foto, role e insta. Nome em destaque grande. */
+  .instr-grid.names-only{
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    max-width:880px;
+    gap:24px;
+  }
+  .instr-card.name-only{
+    padding:46px 30px;
+    background:linear-gradient(160deg,#fff 0%, #fff0f6 100%);
+    border:2px solid var(--pink-100);
+    box-shadow: 0 8px 0 var(--pink-200), 0 24px 44px -10px rgba(190,30,110,.28);
+    display:flex;align-items:center;justify-content:center;
+    min-height:180px;
+  }
+  .instr-card.name-only .instr-name{
+    margin:0;
+    font-family:'Luckiest Guy', cursive;
+    font-size:clamp(28px, 4.2vw, 44px);
+    line-height:1.05;
+    color:var(--pink-500);
+    text-shadow: 0 2px 0 var(--pink-100), 0 4px 10px rgba(190,30,110,.18);
+    letter-spacing:.5px;
+  }
+  .instr-card.name-only::before{
+    content:"♥";
+    position:absolute;top:14px;right:18px;
+    color:var(--pink-200);font-size:22px;line-height:1;
+  }
+  .instr-card.name-only::after{
+    content:"♥";
+    position:absolute;bottom:14px;left:18px;
+    color:var(--pink-200);font-size:22px;line-height:1;
+  }
   .instr-portrait{
     position:relative;
     width:180px;height:180px;border-radius:50%;

@@ -283,8 +283,8 @@ function Programacao(){
 // Instrutoras
 // =====================================================
 const INSTRUCTORS = [
-  {name:'DESIREE SOUZA', role:'Instrutora Funcional', insta:'@desiree.souza', hue:0, init:'D'},
-  {name:'KAREN LOYS', role:'Fit Dance', insta:'@karen.loys', hue:25, init:'K'},
+  {name:'DESIREE SOUZA'},
+  {name:'KAREN LOYS'},
 ];
 
 function Instrutoras(){
@@ -293,30 +293,12 @@ function Instrutoras(){
       <Reveal>
         <div className="section-eyebrow"><span className="line"/> as donas do palco <span className="line"/></div>
         <h2 className="section-title">SUAS INSTRUTORAS</h2>
-        <p className="section-sub">As lindezas que vão comandar a sua manhã.</p>
       </Reveal>
-      <div className="instr-grid">
+      <div className="instr-grid names-only">
         {INSTRUCTORS.map((it,i)=>(
           <Reveal key={it.name} delay={i*.1}>
-            <article className="instr-card">
-              <div className="instr-portrait" style={{filter:`hue-rotate(${it.hue}deg)`}}>
-                <div className="instr-portrait-bg"/>
-                <image-slot
-                  id={`instr-${it.init}-${i}`}
-                  shape="circle"
-                  placeholder={`Foto de ${it.name.split(' ')[0]}`}
-                  style={{width:'100%',height:'100%',position:'absolute',inset:0}}
-                ></image-slot>
-                <div className="instr-init">{it.init}</div>
-              </div>
-              <div className="instr-info">
-                <h3>{it.name}</h3>
-                <div className="instr-role">{it.role}</div>
-                <div className="instr-insta"><IconInstagram size={16}/> {it.insta}</div>
-              </div>
-              <div className="instr-deco">
-                <Dumbbell hue={it.hue}/>
-              </div>
+            <article className="instr-card name-only">
+              <h3 className="instr-name">{it.name}</h3>
             </article>
           </Reveal>
         ))}
