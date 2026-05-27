@@ -50,9 +50,16 @@ function FlyerSection(){
   const [dragOver, setDragOver] = useStateF(false);
   const [toast, setToast] = useStateF('');
   const [canShareFiles, setCanShareFiles] = useStateF(false);
+  // Ajuste de enquadramento da foto: posição (px relativos ao centro) + escala
+  const [imgPos, setImgPos] = useStateF({x:0, y:0});
+  const [imgScale, setImgScale] = useStateF(1);
   const fileRef = useRefF(null);
   const storyRef = useRefF(null);
+  const frameRef = useRefF(null);
   const toastTimer = useRefF(null);
+  // Refs para gestos (não disparam re-render durante drag/pinch)
+  const dragState = useRefF({active:false, startX:0, startY:0, startPosX:0, startPosY:0});
+  const pinchState = useRefF({active:false, startDist:0, startScale:1});
 
   useEffectF(()=>{
     try {
@@ -71,8 +78,109 @@ function FlyerSection(){
     if(!file) return;
     if(!file.type.startsWith('image/')){ showToast('Envie uma imagem por favor'); return; }
     const reader = new FileReader();
-    reader.onload = e => { setImage(e.target.result); showToast('Foto adicionada! ✨'); };
+    reader.onload = e => {
+      setImage(e.target.result);
+      // reseta posição/escala ao carregar nova foto
+      setImgPos({x:0, y:0});
+      setImgScale(1);
+      showToast('Foto adicionada! Arraste pra enquadrar ✨');
+    };
     reader.readAsDataURL(file);
+  };
+
+  const recenterImage = () => {
+    setImgPos({x:0, y:0});
+    setImgScale(1);
+    showToast('Enquadramento centralizado');
+  };
+
+  // ===== Gestos de pan/zoom na foto =====
+  const getTouchDist = (touches) => {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.hypot(dx, dy);
+  };
+
+  const onFrameMouseDown = (e) => {
+    if(!image) return;
+    if(e.target.closest && e.target.closest('.replace-badge, .frame-hint')) return;
+    e.preventDefault();
+    dragState.current = {
+      active:true,
+      startX: e.clientX,
+      startY: e.clientY,
+      startPosX: imgPos.x,
+      startPosY: imgPos.y,
+    };
+  };
+
+  const onFrameMouseMove = (e) => {
+    if(!dragState.current.active) return;
+    const dx = e.clientX - dragState.current.startX;
+    const dy = e.clientY - dragState.current.startY;
+    setImgPos({ x: dragState.current.startPosX + dx, y: dragState.current.startPosY + dy });
+  };
+
+  const onFrameMouseUp = () => { dragState.current.active = false; };
+
+  const onFrameWheel = (e) => {
+    if(!image) return;
+    e.preventDefault();
+    const delta = -e.deltaY * 0.0015;
+    setImgScale(s => Math.max(0.5, Math.min(4, s + delta)));
+  };
+
+  const onFrameTouchStart = (e) => {
+    if(!image) return;
+    if(e.target.closest && e.target.closest('.replace-badge, .frame-hint')) return;
+    if(e.touches.length === 1){
+      dragState.current = {
+        active:true,
+        startX: e.touches[0].clientX,
+        startY: e.touches[0].clientY,
+        startPosX: imgPos.x,
+        startPosY: imgPos.y,
+      };
+    } else if(e.touches.length === 2){
+      dragState.current.active = false;
+      pinchState.current = {
+        active:true,
+        startDist: getTouchDist(e.touches),
+        startScale: imgScale,
+      };
+    }
+  };
+
+  const onFrameTouchMove = (e) => {
+    if(!image) return;
+    if(pinchState.current.active && e.touches.length === 2){
+      e.preventDefault();
+      const dist = getTouchDist(e.touches);
+      const ratio = dist / Math.max(1, pinchState.current.startDist);
+      setImgScale(Math.max(0.5, Math.min(4, pinchState.current.startScale * ratio)));
+    } else if(dragState.current.active && e.touches.length === 1){
+      e.preventDefault();
+      const dx = e.touches[0].clientX - dragState.current.startX;
+      const dy = e.touches[0].clientY - dragState.current.startY;
+      setImgPos({ x: dragState.current.startPosX + dx, y: dragState.current.startPosY + dy });
+    }
+  };
+
+  const onFrameTouchEnd = (e) => {
+    if(e.touches.length === 0){
+      dragState.current.active = false;
+      pinchState.current.active = false;
+    } else if(e.touches.length === 1){
+      pinchState.current.active = false;
+      // reinicia drag a partir do toque restante
+      dragState.current = {
+        active:true,
+        startX: e.touches[0].clientX,
+        startY: e.touches[0].clientY,
+        startPosX: imgPos.x,
+        startPosY: imgPos.y,
+      };
+    }
   };
 
   const onPick = () => fileRef.current && fileRef.current.click();
@@ -165,17 +273,29 @@ function FlyerSection(){
                 </span>
               </div>
 
-              <div className={`frame ${dragOver?'drag-over':''} ${image?'has-image':''}`}
+              <div ref={frameRef}
+                   className={`frame ${dragOver?'drag-over':''} ${image?'has-image':''}`}
                    onClick={()=> !image && onPick()}
                    onDragOver={(e)=>{e.preventDefault(); setDragOver(true);}}
                    onDragLeave={()=> setDragOver(false)}
-                   onDrop={onDrop}>
+                   onDrop={onDrop}
+                   onMouseDown={onFrameMouseDown}
+                   onMouseMove={onFrameMouseMove}
+                   onMouseUp={onFrameMouseUp}
+                   onMouseLeave={onFrameMouseUp}
+                   onWheel={onFrameWheel}
+                   onTouchStart={onFrameTouchStart}
+                   onTouchMove={onFrameTouchMove}
+                   onTouchEnd={onFrameTouchEnd}
+                   onTouchCancel={onFrameTouchEnd}>
                 {image ? (
                   <>
-                    <img src={image} className="frame-photo" alt="Sua foto"/>
+                    <img src={image} className="frame-photo" alt="Sua foto" draggable="false"
+                         style={{transform:`translate(calc(-50% + ${imgPos.x}px), calc(-50% + ${imgPos.y}px)) scale(${imgScale})`}}/>
                     <button className="replace-badge" onClick={(e)=>{e.stopPropagation(); onPick();}}>
                       <IconRefresh size={14}/> Trocar
                     </button>
+                    <div className="frame-hint">arraste · pinça / scroll p/ zoom</div>
                   </>
                 ) : (
                   <div className="frame-prompt">
@@ -217,6 +337,27 @@ function FlyerSection(){
                 <IconRefresh size={16}/> Limpar
               </button>
             </div>
+
+            {image && (
+              <div className="adjust-block">
+                <div className="adjust-head">
+                  <span className="adjust-title">Ajustar enquadramento</span>
+                  <button type="button" className="adjust-reset" onClick={recenterImage}>
+                    <IconRefresh size={12}/> centralizar
+                  </button>
+                </div>
+                <div className="adjust-row">
+                  <span className="adjust-label">Zoom</span>
+                  <input type="range" min="0.5" max="4" step="0.01" value={imgScale}
+                         className="adjust-range"
+                         onChange={(e)=> setImgScale(parseFloat(e.target.value))}/>
+                  <span className="adjust-value">{imgScale.toFixed(2)}×</span>
+                </div>
+                <div className="adjust-hint">
+                  💡 Arraste a foto dentro do quadro pra mover · use pinça no celular ou scroll no PC pra ajuste fino
+                </div>
+              </div>
+            )}
 
             <h3 className="flyer-controls-title" style={{marginTop:18}}>
               <span className="num">02</span>
