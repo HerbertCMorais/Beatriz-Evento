@@ -205,7 +205,6 @@ const FEATURES = [
   { icon: IconBolt, title: 'AULÃO INTENSO', text: 'Três blocos de treino guiados pelas suas treinadoras favoritas. Energia lá em cima do início ao fim.'},
   { icon: IconUsers, title: 'COMUNIDADE', text: 'O encontro das lindezas. Conhece gente nova, faz amiga e troca aquele abraço apertado.'},
   { icon: IconGift, title: 'BRINDES & SURPRESAS', text: 'Kit oficial do evento, sorteios ao vivo e parceiros queridos com mimos pra todo mundo.'},
-  { icon: IconMusic, title: 'DJ SET AO VIVO', text: 'Trilha sonora caprichada pra cada bloco. Pra ninguém parar de mexer.'},
   { icon: IconCamera, title: 'STORY OFICIAL', text: 'Seu story personalizado pronto pra postar no Insta com a sua foto na arte oficial.'},
   { icon: IconHeart, title: 'CAFÉ DAS LINDEZAS', text: 'Pós-aulão com café da manhã saudável, frutinhas e papo gostoso entre amigas.'},
 ];
