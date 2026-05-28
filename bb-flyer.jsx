@@ -321,6 +321,27 @@ function FlyerSection(){
             </div>
           </div>
 
+          {image && (
+            <div className="adjust-block adjust-block-mobile">
+              <div className="adjust-head">
+                <span className="adjust-title">📐 Ajuste sua foto</span>
+                <button type="button" className="adjust-reset" onClick={recenterImage}>
+                  <IconRefresh size={12}/> centralizar
+                </button>
+              </div>
+              <div className="adjust-row">
+                <span className="adjust-label">Zoom</span>
+                <input type="range" min="0.5" max="4" step="0.01" value={imgScale}
+                       className="adjust-range"
+                       onChange={(e)=> setImgScale(parseFloat(e.target.value))}/>
+                <span className="adjust-value">{imgScale.toFixed(2)}×</span>
+              </div>
+              <div className="adjust-hint">
+                👆 Arraste a foto pra mover · pinça pra zoom
+              </div>
+            </div>
+          )}
+
           <div className="flyer-controls">
             <h3 className="flyer-controls-title">
               <span className="num">01</span>
@@ -339,7 +360,7 @@ function FlyerSection(){
             </div>
 
             {image && (
-              <div className="adjust-block">
+              <div className="adjust-block adjust-block-desktop">
                 <div className="adjust-head">
                   <span className="adjust-title">Ajustar enquadramento</span>
                   <button type="button" className="adjust-reset" onClick={recenterImage}>
@@ -354,7 +375,7 @@ function FlyerSection(){
                   <span className="adjust-value">{imgScale.toFixed(2)}×</span>
                 </div>
                 <div className="adjust-hint">
-                  💡 Arraste a foto dentro do quadro pra mover · use pinça no celular ou scroll no PC pra ajuste fino
+                  💡 Arraste a foto dentro do quadro pra mover · use scroll do mouse pra ajuste fino
                 </div>
               </div>
             )}

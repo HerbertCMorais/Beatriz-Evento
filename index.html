@@ -780,6 +780,28 @@
     padding:12px 14px;
     margin-top:10px;
   }
+  /* Mobile: bloco logo abaixo da imagem do story (visível imediatamente) */
+  .adjust-block-mobile{
+    display:none; /* default escondido — só mobile mostra */
+    margin-top:14px;
+    background:#fff;
+    border:2px solid var(--pink-500);
+    box-shadow: 0 8px 24px -6px rgba(190,30,110,.35), 0 0 0 4px rgba(255,79,166,.15);
+    animation: adjust-pop .35s cubic-bezier(.2,.8,.2,1.2);
+  }
+  .adjust-block-mobile .adjust-title{
+    color:var(--pink-500); font-size:14px;
+  }
+  /* Desktop: o bloco do painel direito */
+  .adjust-block-desktop{ display:block }
+  @keyframes adjust-pop{
+    0%{opacity:0;transform:translateY(-8px) scale(.96)}
+    100%{opacity:1;transform:translateY(0) scale(1)}
+  }
+  @media(max-width:840px){
+    .adjust-block-mobile{ display:block }
+    .adjust-block-desktop{ display:none }
+  }
   .adjust-head{
     display:flex;align-items:center;justify-content:space-between;
     margin-bottom:10px;
