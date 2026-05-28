@@ -189,13 +189,49 @@ function FlyerSection(){
     handleFile(e.dataTransfer.files && e.dataTransfer.files[0]);
   };
 
+  // Garante que todas as fontes do Google Fonts estão carregadas E embedadas inline
+  // no PNG gerado pelo html-to-image. Sem isso o gerador cai pra fonte genérica.
+  const prepareFonts = async () => {
+    try {
+      if(document.fonts && document.fonts.ready){
+        await document.fonts.ready;
+      }
+      if(document.fonts && typeof document.fonts.load === 'function'){
+        await Promise.all([
+          document.fonts.load('700 16px "Luckiest Guy"'),
+          document.fonts.load('400 16px "Luckiest Guy"'),
+          document.fonts.load('600 16px "Fredoka"'),
+          document.fonts.load('700 16px "Fredoka"'),
+          document.fonts.load('700 16px "Caveat"'),
+        ]);
+      }
+    } catch(e){ console.warn('[fonts] preload falhou (seguindo mesmo assim):', e); }
+  };
+
+  // Captura comum entre download e share — embeda CSS de fontes ANTES de gerar o PNG.
+  const captureStory = async () => {
+    await prepareFonts();
+    let fontEmbedCSS;
+    try {
+      if(window.htmlToImage && typeof window.htmlToImage.getFontEmbedCSS === 'function'){
+        fontEmbedCSS = await window.htmlToImage.getFontEmbedCSS(storyRef.current);
+      }
+    } catch(e){
+      console.warn('[fonts] getFontEmbedCSS falhou, seguindo sem embed:', e);
+    }
+    return await window.htmlToImage.toPng(storyRef.current, {
+      pixelRatio: 3,
+      cacheBust: true,
+      backgroundColor: '#f6b8d2',
+      ...(fontEmbedCSS ? { fontEmbedCSS } : {}),
+    });
+  };
+
   const download = async () => {
     if(!storyRef.current) return;
     try{
       showToast('Gerando seu story…');
-      const dataUrl = await window.htmlToImage.toPng(storyRef.current, {
-        pixelRatio: 3, cacheBust:true, backgroundColor:'#f6b8d2',
-      });
+      const dataUrl = await captureStory();
       const link = document.createElement('a');
       link.download = `bb-lindezas-${(name||'eu-vou').toLowerCase().replace(/\s+/g,'-')}.png`;
       link.href = dataUrl; link.click();
@@ -207,9 +243,7 @@ function FlyerSection(){
     if(!storyRef.current) return;
     try{
       showToast('Preparando seu story…');
-      const dataUrl = await window.htmlToImage.toPng(storyRef.current, {
-        pixelRatio: 3, cacheBust:true, backgroundColor:'#f6b8d2',
-      });
+      const dataUrl = await captureStory();
       const blob = await (await fetch(dataUrl)).blob();
       const file = new File([blob], `bb-lindezas-${(name||'eu-vou').toLowerCase().replace(/\s+/g,'-')}.png`, {type:'image/png'});
       if(navigator.canShare && navigator.canShare({files:[file]})){
