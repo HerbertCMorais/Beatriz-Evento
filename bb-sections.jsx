@@ -86,7 +86,7 @@ function Hero({onCTA, eventDate}){
       <div className="hero-inner">
         <div className="hero-badge">
           <SparkleSVG style={{width:14, height:14, color:'#fff4cc'}}/>
-          <span>DOMINGO · 31 DE MAIO · 10H</span>
+          <span>DOMINGO · 31/05 · 10H</span>
           <SparkleSVG style={{width:14, height:14, color:'#fff4cc'}}/>
         </div>
 
@@ -126,7 +126,7 @@ function Hero({onCTA, eventDate}){
               <span>B&amp;B LINDEZAS</span><span className="dot">♥</span>
               <span>1ª EDIÇÃO</span><span className="dot">♥</span>
               <span>AULÃO</span><span className="dot">♥</span>
-              <span>31 DE MAIO</span><span className="dot">♥</span>
+              <span>31/05</span><span className="dot">♥</span>
               <span>SUA VAGA TÁ AQUI</span><span className="dot">♥</span>
             </div>
           ))}
@@ -189,7 +189,7 @@ function Countdown({target}){
       </Reveal>
       <Reveal delay={.2}>
         <div className="cd-info">
-          <div className="cd-info-item"><IconCalendar size={18}/> <span>Domingo, 31 de maio</span></div>
+          <div className="cd-info-item"><IconCalendar size={18}/> <span>Domingo, 31/05</span></div>
           <div className="cd-info-item"><IconClock size={18}/> <span>10h00 — 14h00</span></div>
           <div className="cd-info-item"><IconPin size={18}/> <span>Rua Branquilho, 166 · Salão de Festa</span></div>
         </div>
@@ -357,7 +357,7 @@ function Footer(){
               <div className="brand-sub light">1ª edição · aulão</div>
             </div>
           </div>
-          <p className="foot-tag">Treino, comunidade e muito amor.<br/>Te esperamos no dia 31 de maio. 💖</p>
+          <p className="foot-tag">Treino, comunidade e muito amor.<br/>Te esperamos no dia 31/05. 💖</p>
         </div>
         <div className="foot-right">
           <button className="btn primary big" onClick={()=> document.getElementById('flyer')?.scrollIntoView({behavior:'smooth'})}>

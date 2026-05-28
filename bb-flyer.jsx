@@ -346,7 +346,7 @@ function FlyerSection(){
 
               <div className="bottom-text">
                 <div className="line1">1ª EDIÇÃO</div>
-                <div className="line2">AULÃO · 31 MAI</div>
+                <div className="line2">AULÃO · 31/05</div>
               </div>
 
               {name && <div className="name-banner">EU SOU {name.toUpperCase()} ♥</div>}
